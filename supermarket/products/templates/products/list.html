@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Goldwin Super Market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            animation: fadeIn 1s ease-in;
+        }
+
+        /* Page Fade Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            animation: slideDown 1s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #575757;
+            transform: scale(1.05);
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        /* Table Wrapper (for mobile scroll) */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-width: 750px;
+        }
+
+        th {
+            background: #2a5298;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e6f0ff;
+            transition: 0.3s;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-add {
+            background: green;
+            color: white;
+        }
+
+        .btn-edit {
+            background: orange;
+            color: white;
+        }
+
+        .btn-delete {
+            background: red;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+
+            .header {
+                font-size: 20px;
+                padding: 15px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar a {
+                width: 100%;
+                text-align: center;
+                border-top: 1px solid #444;
+            }
+
+            h2 {
+                text-align: center;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        🛒 Goldwin Super Market
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="{% url 'product_list' %}">Home</a>
+        <a href="{% url 'product_add' %}" class="btn-add">Add Product</a>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+
+        <h2>Product List</h2>
+        <br>
+
+        <div class="table-wrapper">
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Extra Qty</th>
+                    <th>Total Amount</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.extra_quantity }}</td>
+                    <td>{{ product.total_amount }}</td>
+                    <td>{{ product.created_at|date:"d-m-Y H:i" }}</td>
+                    <td>
+                        <a class="btn btn-edit" href="{% url 'product_edit' product.id %}">Edit</a>
+                        <a class="btn btn-delete" href="{% url 'product_delete' product.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">No products available</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © 2026 Goldwin Super Market | Designed by Joseph Goldwin
+    </div>
+
+</body>
+</html>
